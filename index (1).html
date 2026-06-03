@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>I'm Sorry, My Love</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --pink: #ff6b9d;
+    --light-pink: #ffb3cc;
+    --rose: #ff3d7f;
+    --lavender: #d4a8ff;
+    --cream: #fff5f8;
+    --deep: #5c1a3a;
+    --soft: #ffe4ef;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ===== FLOATING BACKGROUND ELEMENTS ===== */
+  .bg-floaties {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .floatie {
+    position: absolute;
+    opacity: 0;
+    animation: floatUp linear infinite;
+  }
+
+  @keyframes floatUp {
+    0%   { opacity: 0; transform: translateY(0) rotate(0deg) scale(0.6); }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.5; }
+    100% { opacity: 0; transform: translateY(-110vh) rotate(360deg) scale(1.2); }
+  }
+
+  /* SVG heart shape via clip-path */
+  .floatie-heart {
+    width: 24px; height: 24px;
+    background: var(--pink);
+    clip-path: path('M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z');
+  }
+
+  .floatie-star {
+    width: 18px; height: 18px;
+    background: #ffd700;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  }
+
+  .floatie-petal {
+    width: 14px; height: 22px;
+    background: var(--light-pink);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  }
+
+  /* ===== PAGES ===== */
+  .page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    pointer-events: none;
+  }
+
+  .page.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+
+  .page.hidden { display: none; }
+
+  /* ===== PAGE 1 - SORRY ===== */
+  #page1 { background: linear-gradient(160deg, #fff0f5 0%, #ffe4ef 50%, #ffd6e8 100%); }
+
+  .bear-container {
+    position: relative;
+    margin-bottom: 30px;
+    animation: bearBounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bearBounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-12px); }
+  }
+
+  /* CSS Bear */
+  .bear {
+    width: 120px;
+    height: 120px;
+    position: relative;
+  }
+
+  .bear-body {
+    width: 90px; height: 95px;
+    background: #c8956c;
+    border-radius: 45px 45px 40px 40px;
+    position: absolute;
+    bottom: 0; left: 15px;
+  }
+  .bear-head {
+    width: 80px; height: 75px;
+    background: #c8956c;
+    border-radius: 50%;
+    position: absolute;
+    top: 0; left: 20px;
+  }
+  .bear-ear-l, .bear-ear-r {
+    width: 28px; height: 28px;
+    background: #c8956c;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+  }
+  .bear-ear-l { left: 20px; }
+  .bear-ear-r { right: 20px; }
+  .bear-ear-inner-l, .bear-ear-inner-r {
+    width: 16px; height: 16px;
+    background: #e8b89a;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px; left: 5px;
+  }
+  .bear-face {
+    position: absolute;
+    top: 18px; left: 50%;
+    transform: translateX(-50%);
+    width: 60px; height: 45px;
+  }
+  .bear-eye-l, .bear-eye-r {
+    width: 10px; height: 10px;
+    background: #3a1a0a;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+  }
+  .bear-eye-l { left: 8px; }
+  .bear-eye-r { right: 8px; }
+  .bear-eye-l::after, .bear-eye-r::after {
+    content: '';
+    width: 4px; height: 4px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px; left: 2px;
+  }
+  .bear-nose {
+    width: 18px; height: 12px;
+    background: #3a1a0a;
+    border-radius: 50%;
+    position: absolute;
+    top: 16px; left: 50%;
+    transform: translateX(-50%);
+  }
+  .bear-mouth {
+    width: 22px; height: 10px;
+    border: 3px solid #3a1a0a;
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    position: absolute;
+    bottom: 2px; left: 50%;
+    transform: translateX(-50%);
+  }
+  .bear-cheek-l, .bear-cheek-r {
+    width: 18px; height: 10px;
+    background: rgba(255,120,120,0.4);
+    border-radius: 50%;
+    position: absolute;
+    top: 20px;
+  }
+  .bear-cheek-l { left: 0; }
+  .bear-cheek-r { right: 0; }
+
+  /* Tears on bear */
+  .tear {
+    position: absolute;
+    width: 6px; height: 10px;
+    background: #89cff0;
+    border-radius: 50% 50% 70% 70%;
+    animation: tearDrop 1.5s ease-in infinite;
+    opacity: 0;
+  }
+  .tear-l { top: 28px; left: 24px; animation-delay: 0.3s; }
+  .tear-r { top: 28px; right: 24px; animation-delay: 0.8s; }
+
+  @keyframes tearDrop {
+    0%   { opacity: 0; transform: translateY(0); }
+    20%  { opacity: 1; }
+    100% { opacity: 0; transform: translateY(20px); }
+  }
+
+  /* Flower bouquet beside bear */
+  .bouquet {
+    position: absolute;
+    right: -55px;
+    bottom: 5px;
+    transform: rotate(15deg);
+    animation: bouquetWobble 3s ease-in-out infinite;
+  }
+
+  @keyframes bouquetWobble {
+    0%, 100% { transform: rotate(15deg); }
+    50%       { transform: rotate(20deg) translateY(-4px); }
+  }
+
+  .flower {
+    position: relative;
+    margin: 4px;
+  }
+
+  .petal-ring {
+    position: relative;
+    width: 36px;
+    height: 36px;
+  }
+
+  .petal {
+    position: absolute;
+    width: 12px;
+    height: 18px;
+    border-radius: 50%;
+    transform-origin: bottom center;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .center-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+
+  .stem {
+    width: 3px;
+    margin: 0 auto;
+    background: #5a9e4a;
+    border-radius: 2px;
+  }
+
+  /* Text styles */
+  .sorry-badge {
+    background: var(--pink);
+    color: white;
+    font-family: 'Pacifico', cursive;
+    font-size: 13px;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(255,107,157,0.4);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(255,107,157,0.4); }
+    50%       { transform: scale(1.05); box-shadow: 0 6px 25px rgba(255,107,157,0.6); }
+  }
+
+  .sorry-title {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(28px, 6vw, 48px);
+    color: var(--deep);
+    text-align: center;
+    line-height: 1.3;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 0 rgba(255,107,157,0.3);
+  }
+
+  .sorry-title span {
+    color: var(--rose);
+  }
+
+  .sorry-text {
+    font-size: clamp(15px, 3vw, 18px);
+    color: #7a3a55;
+    text-align: center;
+    max-width: 480px;
+    line-height: 1.8;
+    background: white;
+    padding: 24px 32px;
+    border-radius: 24px;
+    box-shadow: 0 8px 30px rgba(255,107,157,0.2);
+    border: 2px solid var(--light-pink);
+    margin-bottom: 30px;
+    position: relative;
+  }
+
+  .sorry-text::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--pink), var(--lavender), var(--light-pink));
+    z-index: -1;
+    opacity: 0.3;
+  }
+
+  .next-btn {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    padding: 14px 40px;
+    background: linear-gradient(135deg, var(--rose), var(--pink));
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(255,61,127,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .next-btn:hover {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 10px 30px rgba(255,61,127,0.5);
+  }
+
+  /* ===== PAGE 2 - FORGIVE ME ===== */
+  #page2 { background: linear-gradient(160deg, #ffe4ef 0%, #f8e1ff 50%, #ffe4ef 100%); }
+
+  .forgive-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(32px, 7vw, 60px);
+    color: var(--deep);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .forgive-sub {
+    color: #9a4a70;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 600;
+  }
+
+  .question-card {
+    background: white;
+    border-radius: 30px;
+    padding: 40px 50px;
+    text-align: center;
+    box-shadow: 0 15px 50px rgba(255,107,157,0.25);
+    border: 3px solid var(--light-pink);
+    max-width: 450px;
+    width: 100%;
+    position: relative;
+  }
+
+  .question-text {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--deep);
+    margin-bottom: 35px;
+    line-height: 1.5;
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn-yes {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    padding: 14px 45px;
+    background: linear-gradient(135deg, #ff6b9d, #ff3d7f);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(255,61,127,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-yes:hover {
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: 0 10px 30px rgba(255,61,127,0.55);
+  }
+
+  .btn-no {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    padding: 14px 45px;
+    background: white;
+    color: #bbb;
+    border: 2px solid #ddd;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    position: fixed;
+    z-index: 1000;
+  }
+
+  .page-flowers {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* ===== PAGE 3 - THANK YOU ===== */
+  #page3 { background: linear-gradient(160deg, #fff0f5 0%, #fce4ff 50%, #ffe4ef 100%); }
+
+  .ty-title {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(30px, 6vw, 52px);
+    color: var(--deep);
+    text-align: center;
+    margin-bottom: 10px;
+    animation: rainbow 4s linear infinite;
+  }
+
+  @keyframes rainbow {
+    0%   { color: var(--rose); }
+    33%  { color: #c062ff; }
+    66%  { color: #ff8a50; }
+    100% { color: var(--rose); }
+  }
+
+  .ty-sub {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(20px, 4vw, 32px);
+    color: #9a4a70;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .love-card {
+    background: white;
+    border-radius: 30px;
+    padding: 35px 40px;
+    text-align: center;
+    box-shadow: 0 15px 50px rgba(255,107,157,0.25);
+    border: 3px solid var(--light-pink);
+    max-width: 460px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .love-card::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, rgba(255,180,210,0.5), transparent);
+    border-radius: 50%;
+  }
+
+  .kiss-text {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--deep);
+    margin-bottom: 10px;
+  }
+
+  .love-text {
+    font-size: 16px;
+    color: #9a4a70;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  /* Heart burst animation */
+  .heart-burst {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 15px 0;
+  }
+
+  .burst-heart {
+    width: 22px; height: 22px;
+    background: var(--pink);
+    clip-path: path('M11 19.5c-5.163-5.063-10-9.432-10-13.2C1 3.254 3.818 2 5.782 2c1.202 0 3.8.459 5.218 4.078C12.418 2.459 15.016 2 16.218 2 18.182 2 21 3.254 21 6.3c0 3.768-4.837 8.137-10 13.2z');
+    animation: heartPop 0.4s ease-out backwards;
+  }
+
+  @keyframes heartPop {
+    0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+    70%  { transform: scale(1.3) rotate(5deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  /* Sparkling decoration on page 3 */
+  .sparkles-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .sparkle {
+    position: absolute;
+    width: 6px; height: 6px;
+    background: #ffd700;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: sparkleFade 1.5s ease-in-out infinite;
+    opacity: 0;
+  }
+
+  @keyframes sparkleFade {
+    0%, 100% { opacity: 0; transform: scale(0); }
+    50%       { opacity: 1; transform: scale(1.5); }
+  }
+
+  /* ===== FLOWER COMPONENTS ===== */
+  .flower-svg {
+    width: 60px;
+    height: 60px;
+    animation: flowerSpin 8s linear infinite;
+  }
+
+  .flower-svg-sm {
+    width: 40px;
+    height: 40px;
+    animation: flowerSpin 12s linear infinite reverse;
+  }
+
+  @keyframes flowerSpin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* ===== CONFETTI ===== */
+  .confetti-piece {
+    position: fixed;
+    width: 10px; height: 10px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    animation: confettiFall linear forwards;
+  }
+
+  @keyframes confettiFall {
+    0%   { opacity: 1; transform: translateY(-20px) rotate(0deg); }
+    100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+  }
+
+  /* ===== HEART BEAT SVG ===== */
+  .big-heart {
+    width: 80px; height: 80px;
+    animation: heartbeat 1.2s ease-in-out infinite;
+    margin-bottom: 20px;
+  }
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    14%       { transform: scale(1.2); }
+    28%       { transform: scale(1); }
+    42%       { transform: scale(1.15); }
+    56%       { transform: scale(1); }
+  }
+
+  /* RIBBON */
+  .ribbon {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--rose), var(--pink));
+    color: white;
+    font-family: 'Pacifico', cursive;
+    font-size: 12px;
+    padding: 5px 22px;
+    border-radius: 20px;
+    white-space: nowrap;
+    box-shadow: 0 3px 12px rgba(255,61,127,0.35);
+    letter-spacing: 0.5px;
+  }
+
+  /* ===== DOTS PROGRESS ===== */
+  .progress-dots {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #ddd;
+    transition: background 0.4s, transform 0.4s;
+  }
+
+  .dot.active { background: var(--pink); transform: scale(1.3); }
+  .dot.done   { background: var(--rose); }
+</style>
+</head>
+<body>
+
+<!-- Floating background elements -->
+<div class="bg-floaties" id="floaties"></div>
+
+<!-- PROGRESS DOTS -->
+<div class="progress-dots" id="dots" style="position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:100;">
+  <div class="dot active" id="dot1"></div>
+  <div class="dot" id="dot2"></div>
+  <div class="dot" id="dot3"></div>
+</div>
+
+<!-- ==================== PAGE 1 ==================== -->
+<div class="page active" id="page1">
+  <div class="sorry-badge">A little message for you...</div>
+
+  <div class="bear-container">
+    <!-- CSS Bear -->
+    <div class="bear" style="position:relative;">
+      <!-- bouquet -->
+      <div class="bouquet">
+        <svg width="50" height="70" viewBox="0 0 50 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- stem -->
+          <rect x="23" y="35" width="4" height="30" rx="2" fill="#5a9e4a"/>
+          <rect x="27" y="45" width="12" height="3" rx="1.5" fill="#5a9e4a" transform="rotate(30 27 45)"/>
+          <!-- flower 1 -->
+          <circle cx="20" cy="22" r="6" fill="#ffb3cc"/>
+          <circle cx="20" cy="22" r="3" fill="#ffd700"/>
+          <!-- flower 2 -->
+          <circle cx="30" cy="18" r="5" fill="#ff6b9d"/>
+          <circle cx="30" cy="18" r="2.5" fill="#ffd700"/>
+          <!-- flower 3 -->
+          <circle cx="25" cy="12" r="5.5" fill="#d4a8ff"/>
+          <circle cx="25" cy="12" r="2.5" fill="#fff"/>
+          <!-- petals flower 1 -->
+          <ellipse cx="14" cy="22" rx="3" ry="5" fill="#ffb3cc" opacity="0.8"/>
+          <ellipse cx="26" cy="22" rx="3" ry="5" fill="#ffb3cc" opacity="0.8"/>
+          <ellipse cx="20" cy="16" rx="5" ry="3" fill="#ffb3cc" opacity="0.8"/>
+          <ellipse cx="20" cy="28" rx="5" ry="3" fill="#ffb3cc" opacity="0.8"/>
+        </svg>
+      </div>
+
+      <div class="bear-ear-l"><div class="bear-ear-inner-l"></div></div>
+      <div class="bear-ear-r"><div class="bear-ear-inner-r"></div></div>
+      <div class="bear-head">
+        <div class="bear-face">
+          <div class="bear-eye-l"></div>
+          <div class="bear-eye-r"></div>
+          <div class="bear-cheek-l"></div>
+          <div class="bear-cheek-r"></div>
+          <div class="bear-nose"></div>
+          <div class="bear-mouth"></div>
+        </div>
+        <div class="tear tear-l"></div>
+        <div class="tear tear-r"></div>
+      </div>
+      <div class="bear-body"></div>
+    </div>
+  </div>
+
+  <div class="sorry-title">I know you're<br/><span>real angry</span> right now...</div>
+
+  <div class="sorry-text">
+    But I need you to know — from the bottom of my heart — that I am <strong>truly, deeply sorry.</strong><br/><br/>
+    I hate seeing you upset, especially because of something I did. You mean the whole world to me, and I never want to hurt you.
+    <br/><br/>
+    <em>Please give me a chance to make it right...</em>
+  </div>
+
+  <!-- Decorative flowers row -->
+  <div style="display:flex;gap:15px;margin-bottom:30px;align-items:center;">
+    <svg class="flower-svg-sm" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="40" cy="18" rx="10" ry="16" fill="#ffb3cc"/>
+      <ellipse cx="40" cy="62" rx="10" ry="16" fill="#ffb3cc"/>
+      <ellipse cx="18" cy="40" rx="16" ry="10" fill="#ffb3cc"/>
+      <ellipse cx="62" cy="40" rx="16" ry="10" fill="#ffb3cc"/>
+      <ellipse cx="23" cy="23" rx="9" ry="14" fill="#ff6b9d" transform="rotate(45 23 23)"/>
+      <ellipse cx="57" cy="23" rx="9" ry="14" fill="#ff6b9d" transform="rotate(-45 57 23)"/>
+      <ellipse cx="23" cy="57" rx="9" ry="14" fill="#ff6b9d" transform="rotate(-45 23 57)"/>
+      <ellipse cx="57" cy="57" rx="9" ry="14" fill="#ff6b9d" transform="rotate(45 57 57)"/>
+      <circle cx="40" cy="40" r="14" fill="#ffd700"/>
+      <circle cx="40" cy="40" r="8" fill="#ff9500"/>
+    </svg>
+
+    <svg viewBox="0 0 60 60" width="50" height="50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 55 C30 55 5 38 5 22 C5 13 12 8 19 8 C23 8 27 10 30 14 C33 10 37 8 41 8 C48 8 55 13 55 22 C55 38 30 55 30 55Z" fill="#ff3d7f"/>
+    </svg>
+
+    <svg class="flower-svg-sm" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="40" cy="18" rx="10" ry="16" fill="#d4a8ff"/>
+      <ellipse cx="40" cy="62" rx="10" ry="16" fill="#d4a8ff"/>
+      <ellipse cx="18" cy="40" rx="16" ry="10" fill="#d4a8ff"/>
+      <ellipse cx="62" cy="40" rx="16" ry="10" fill="#d4a8ff"/>
+      <ellipse cx="23" cy="23" rx="9" ry="14" fill="#b070f0" transform="rotate(45 23 23)"/>
+      <ellipse cx="57" cy="23" rx="9" ry="14" fill="#b070f0" transform="rotate(-45 57 23)"/>
+      <ellipse cx="23" cy="57" rx="9" ry="14" fill="#b070f0" transform="rotate(-45 23 57)"/>
+      <ellipse cx="57" cy="57" rx="9" ry="14" fill="#b070f0" transform="rotate(45 57 57)"/>
+      <circle cx="40" cy="40" r="14" fill="#fff"/>
+      <circle cx="40" cy="40" r="8" fill="#ffd700"/>
+    </svg>
+  </div>
+
+  <button class="next-btn" onclick="goToPage(2)">Next →</button>
+</div>
+
+<!-- ==================== PAGE 2 ==================== -->
+<div class="page hidden" id="page2">
+  <div class="forgive-title">Please forgive me, honey...</div>
+  <div class="forgive-sub">I can't be happy knowing you're sad because of me.</div>
+
+  <div class="question-card">
+    <div class="ribbon">The Big Question</div>
+    <div style="height:10px;"></div>
+
+    <!-- Animated heart -->
+    <svg class="big-heart" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 52 C30 52 4 34 4 18 C4 9.5 10.5 4 18 4 C22 4 26 6 30 11 C34 6 38 4 42 4 C49.5 4 56 9.5 56 18 C56 34 30 52 30 52Z" fill="#ff3d7f"/>
+      <path d="M17 16 C16 18 16 21 19 24" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+
+    <div class="question-text">Do you forgive me?</div>
+
+    <div class="btn-group">
+      <button class="btn-yes" onclick="goToPage(3)">Yes, I forgive you</button>
+      <button class="btn-no" id="noBtn">Nope</button>
+    </div>
+  </div>
+
+  <!-- Flowers decoration -->
+  <div class="page-flowers">
+    <svg viewBox="0 0 80 80" width="55" height="55" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation: flowerSpin 6s linear infinite;">
+      <ellipse cx="40" cy="14" rx="8" ry="14" fill="#ffb3cc"/>
+      <ellipse cx="40" cy="66" rx="8" ry="14" fill="#ffb3cc"/>
+      <ellipse cx="14" cy="40" rx="14" ry="8" fill="#ffb3cc"/>
+      <ellipse cx="66" cy="40" rx="14" ry="8" fill="#ffb3cc"/>
+      <circle cx="40" cy="40" r="13" fill="#ffd700"/>
+    </svg>
+    <svg viewBox="0 0 80 80" width="45" height="45" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation: flowerSpin 9s linear infinite reverse;">
+      <ellipse cx="40" cy="14" rx="8" ry="14" fill="#d4a8ff"/>
+      <ellipse cx="40" cy="66" rx="8" ry="14" fill="#d4a8ff"/>
+      <ellipse cx="14" cy="40" rx="14" ry="8" fill="#d4a8ff"/>
+      <ellipse cx="66" cy="40" rx="14" ry="8" fill="#d4a8ff"/>
+      <ellipse cx="22" cy="22" rx="7" ry="12" fill="#b070f0" transform="rotate(45 22 22)"/>
+      <ellipse cx="58" cy="22" rx="7" ry="12" fill="#b070f0" transform="rotate(-45 58 22)"/>
+      <ellipse cx="22" cy="58" rx="7" ry="12" fill="#b070f0" transform="rotate(-45 22 58)"/>
+      <ellipse cx="58" cy="58" rx="7" ry="12" fill="#b070f0" transform="rotate(45 58 58)"/>
+      <circle cx="40" cy="40" r="12" fill="#fff"/>
+    </svg>
+    <svg viewBox="0 0 80 80" width="55" height="55" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation: flowerSpin 7s linear infinite;">
+      <ellipse cx="40" cy="14" rx="8" ry="14" fill="#ff6b9d"/>
+      <ellipse cx="40" cy="66" rx="8" ry="14" fill="#ff6b9d"/>
+      <ellipse cx="14" cy="40" rx="14" ry="8" fill="#ff6b9d"/>
+      <ellipse cx="66" cy="40" rx="14" ry="8" fill="#ff6b9d"/>
+      <circle cx="40" cy="40" r="13" fill="#ff3d7f"/>
+      <circle cx="40" cy="40" r="7" fill="#ffd700"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ==================== PAGE 3 ==================== -->
+<div class="page hidden" id="page3">
+  <div class="sparkles-container" id="sparkles"></div>
+
+  <div class="ty-title">Yay!! Thank you!!</div>
+  <div class="ty-sub">You just made the happiest person alive!</div>
+
+  <!-- Floating hearts burst -->
+  <div class="heart-burst" id="heartBurst"></div>
+
+  <div class="love-card">
+    <div class="ribbon">With all my love</div>
+    <div style="height:10px;"></div>
+
+    <!-- Cute cat/bunny face -->
+    <svg width="100" height="90" viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:15px;animation:bearBounce 2s ease-in-out infinite;">
+      <!-- ears -->
+      <ellipse cx="28" cy="18" rx="10" ry="14" fill="#ffb3cc"/>
+      <ellipse cx="72" cy="18" rx="10" ry="14" fill="#ffb3cc"/>
+      <ellipse cx="28" cy="18" rx="5" ry="9" fill="#ff6b9d" opacity="0.6"/>
+      <ellipse cx="72" cy="18" rx="5" ry="9" fill="#ff6b9d" opacity="0.6"/>
+      <!-- head -->
+      <circle cx="50" cy="52" r="35" fill="#ffe4cc"/>
+      <!-- eyes - cute closed happy eyes -->
+      <path d="M35 46 Q38 42 41 46" stroke="#5c1a3a" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <path d="M59 46 Q62 42 65 46" stroke="#5c1a3a" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <!-- cheeks -->
+      <ellipse cx="30" cy="56" rx="9" ry="6" fill="rgba(255,120,120,0.35)"/>
+      <ellipse cx="70" cy="56" rx="9" ry="6" fill="rgba(255,120,120,0.35)"/>
+      <!-- nose -->
+      <ellipse cx="50" cy="57" rx="4" ry="3" fill="#ff6b9d"/>
+      <!-- mouth happy -->
+      <path d="M44 63 Q50 70 56 63" stroke="#5c1a3a" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <!-- whiskers -->
+      <line x1="18" y1="57" x2="40" y2="55" stroke="#5c1a3a" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+      <line x1="18" y1="63" x2="40" y2="62" stroke="#5c1a3a" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+      <line x1="60" y1="55" x2="82" y2="57" stroke="#5c1a3a" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+      <line x1="60" y1="62" x2="82" y2="63" stroke="#5c1a3a" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+    </svg>
+
+    <div class="kiss-text">Mwah mwah mwah!</div>
+    <div class="love-text">
+      Tks for forgiving me, honey.<br/>
+      You're the most precious thing in my world.<br/>
+      <strong>I love you so, so much.</strong>
+    </div>
+
+    <!-- Hearts row -->
+    <div class="heart-burst" id="heartBurst2"></div>
+
+    <div style="margin-top:20px;font-family:'Pacifico',cursive;font-size:22px;color:var(--rose);">
+      Luv u always
+    </div>
+  </div>
+
+  <!-- Big flower garden -->
+  <div style="display:flex;gap:12px;margin-top:30px;align-items:flex-end;flex-wrap:wrap;justify-content:center;">
+    <svg viewBox="0 0 60 80" width="50" height="70" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation:bouquetWobble 2s ease-in-out infinite;">
+      <rect x="28" y="38" width="4" height="38" rx="2" fill="#5a9e4a"/>
+      <ellipse cx="30" cy="18" rx="8" ry="13" fill="#ffb3cc"/>
+      <ellipse cx="30" cy="18" rx="12" ry="7" fill="#ffb3cc"/>
+      <ellipse cx="22" cy="22" rx="7" ry="11" fill="#ff6b9d" transform="rotate(45 22 22)"/>
+      <ellipse cx="38" cy="22" rx="7" ry="11" fill="#ff6b9d" transform="rotate(-45 38 22)"/>
+      <circle cx="30" cy="18" r="7" fill="#ffd700"/>
+    </svg>
+    <svg viewBox="0 0 60 80" width="55" height="75" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation:bouquetWobble 2.5s ease-in-out infinite 0.3s;">
+      <rect x="28" y="38" width="4" height="38" rx="2" fill="#5a9e4a"/>
+      <ellipse cx="30" cy="16" rx="8" ry="13" fill="#d4a8ff"/>
+      <ellipse cx="30" cy="16" rx="13" ry="7" fill="#d4a8ff"/>
+      <ellipse cx="21" cy="20" rx="7" ry="11" fill="#b070f0" transform="rotate(45 21 20)"/>
+      <ellipse cx="39" cy="20" rx="7" ry="11" fill="#b070f0" transform="rotate(-45 39 20)"/>
+      <circle cx="30" cy="16" r="7" fill="#fff"/>
+      <circle cx="30" cy="16" r="4" fill="#ffd700"/>
+    </svg>
+    <svg viewBox="0 0 60 80" width="45" height="65" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation:bouquetWobble 3s ease-in-out infinite 0.6s;">
+      <rect x="28" y="38" width="4" height="38" rx="2" fill="#5a9e4a"/>
+      <ellipse cx="30" cy="19" rx="8" ry="13" fill="#ff6b9d"/>
+      <ellipse cx="30" cy="19" rx="13" ry="7" fill="#ff6b9d"/>
+      <ellipse cx="22" cy="23" rx="7" ry="11" fill="#ff3d7f" transform="rotate(45 22 23)"/>
+      <ellipse cx="38" cy="23" rx="7" ry="11" fill="#ff3d7f" transform="rotate(-45 38 23)"/>
+      <circle cx="30" cy="19" r="7" fill="#ffd700"/>
+    </svg>
+    <svg viewBox="0 0 60 80" width="50" height="70" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation:bouquetWobble 2.2s ease-in-out infinite 0.9s;">
+      <rect x="28" y="38" width="4" height="38" rx="2" fill="#5a9e4a"/>
+      <ellipse cx="30" cy="18" rx="8" ry="13" fill="#ffe066"/>
+      <ellipse cx="30" cy="18" rx="13" ry="7" fill="#ffe066"/>
+      <ellipse cx="22" cy="22" rx="7" ry="11" fill="#ffb700" transform="rotate(45 22 22)"/>
+      <ellipse cx="38" cy="22" rx="7" ry="11" fill="#ffb700" transform="rotate(-45 38 22)"/>
+      <circle cx="30" cy="18" r="7" fill="#ff8a50"/>
+    </svg>
+  </div>
+</div>
+
+<script>
+  // ===== FLOATING BACKGROUND ELEMENTS =====
+  const floatieTypes = ['floatie-heart','floatie-star','floatie-petal'];
+  const colors = ['#ff6b9d','#ffb3cc','#d4a8ff','#ffd700','#ff3d7f','#c8e6ff'];
+
+  function createFloatie() {
+    const el = document.createElement('div');
+    el.className = 'floatie ' + floatieTypes[Math.floor(Math.random() * floatieTypes.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.bottom = '-30px';
+    const dur = 6 + Math.random() * 8;
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay = Math.random() * 3 + 's';
+    if (el.classList.contains('floatie-heart') || el.classList.contains('floatie-petal')) {
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    }
+    const scale = 0.6 + Math.random() * 1;
+    el.style.transform = 'scale(' + scale + ')';
+    document.getElementById('floaties').appendChild(el);
+    setTimeout(() => el.remove(), (dur + 3) * 1000);
+  }
+
+  setInterval(createFloatie, 400);
+  for (let i = 0; i < 8; i++) setTimeout(createFloatie, i * 200);
+
+  // ===== NO BUTTON RUNAWAY =====
+  const noBtn = document.getElementById('noBtn');
+  let noShakes = 0;
+
+  function positionNoBtnRandom() {
+    const margin = 40;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const bw = noBtn.offsetWidth || 130;
+    const bh = noBtn.offsetHeight || 50;
+    const x = margin + Math.random() * (vw - bw - margin * 2);
+    const y = margin + Math.random() * (vh - bh - margin * 2);
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+    noBtn.style.transition = 'left 0.18s cubic-bezier(.36,.07,.19,.97), top 0.18s cubic-bezier(.36,.07,.19,.97)';
+    noShakes++;
+    if (noShakes % 4 === 0) {
+      noBtn.style.fontSize = Math.max(10, 18 - noShakes * 0.5) + 'px';
+      if (noShakes > 20) noBtn.style.opacity = '0.3';
+    }
+  }
+
+  noBtn.addEventListener('mouseover', positionNoBtnRandom);
+  noBtn.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    positionNoBtnRandom();
+  });
+
+  // Set initial position after a tick
+  setTimeout(() => {
+    const rect = document.getElementById('page2').getBoundingClientRect();
+    noBtn.style.left = (window.innerWidth / 2 + 20) + 'px';
+    noBtn.style.top = (window.innerHeight / 2 + 20) + 'px';
+  }, 600);
+
+  // ===== PAGE TRANSITION =====
+  function goToPage(n) {
+    const pages = document.querySelectorAll('.page');
+    const dots = document.querySelectorAll('.dot');
+
+    pages.forEach(p => {
+      p.classList.remove('active');
+      p.classList.add('hidden');
+    });
+
+    dots.forEach((d, i) => {
+      d.classList.remove('active');
+      if (i < n - 1) d.classList.add('done');
+      else d.classList.remove('done');
+    });
+
+    const target = document.getElementById('page' + n);
+    target.classList.remove('hidden');
+    setTimeout(() => target.classList.add('active'), 20);
+
+    dots[n - 1].classList.add('active');
+
+    if (n === 2) {
+      setTimeout(() => {
+        positionNoBtnRandom();
+      }, 500);
+    }
+
+    if (n === 3) {
+      spawnConfetti();
+      buildHearts();
+      buildSparkles();
+    }
+  }
+
+  // ===== CONFETTI =====
+  function spawnConfetti() {
+    const confColors = ['#ff6b9d','#ffb3cc','#d4a8ff','#ffd700','#ff3d7f','#89cff0','#ff8a50'];
+    for (let i = 0; i < 60; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.top = '-20px';
+      piece.style.background = confColors[Math.floor(Math.random() * confColors.length)];
+      piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      piece.style.width = (6 + Math.random() * 8) + 'px';
+      piece.style.height = (6 + Math.random() * 8) + 'px';
+      piece.style.animationDuration = (2 + Math.random() * 3) + 's';
+      piece.style.animationDelay = (Math.random() * 2) + 's';
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 6000);
+    }
+  }
+
+  // ===== HEARTS BURST =====
+  function buildHearts() {
+    const heartColors = ['#ff3d7f','#ff6b9d','#ffb3cc','#c062ff','#ff8a50'];
+    ['heartBurst','heartBurst2'].forEach(id => {
+      const container = document.getElementById(id);
+      container.innerHTML = '';
+      for (let i = 0; i < 7; i++) {
+        const h = document.createElement('div');
+        h.className = 'burst-heart';
+        h.style.background = heartColors[i % heartColors.length];
+        h.style.animationDelay = (i * 0.08) + 's';
+        const sizes = [16,20,24,18,22,16,20];
+        h.style.width = sizes[i] + 'px';
+        h.style.height = sizes[i] + 'px';
+        container.appendChild(h);
+      }
+    });
+  }
+
+  // ===== SPARKLES =====
+  function buildSparkles() {
+    const container = document.getElementById('sparkles');
+    container.innerHTML = '';
+    for (let i = 0; i < 20; i++) {
+      const s = document.createElement('div');
+      s.className = 'sparkle';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top = Math.random() * 100 + '%';
+      s.style.animationDelay = (Math.random() * 2) + 's';
+      s.style.animationDuration = (1 + Math.random()) + 's';
+      const sz = 6 + Math.random() * 10;
+      s.style.width = sz + 'px';
+      s.style.height = sz + 'px';
+      container.appendChild(s);
+    }
+  }
+</script>
+</body>
+</html>
